@@ -1,0 +1,26 @@
+{
+    "name": "fng/logger",
+    "description": "Log events in lumen/laravel application",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Franco Nascimento",
+            "email": "fng.desenvolvedor@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Fng\\Logger\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fng\\Logger\\LoggerServiceProvider"
+            ]
+        }
+    }
+}
