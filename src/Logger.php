@@ -51,7 +51,14 @@ class Logger
                     $color = 'ff0000';
                     break;
             }
-            $log->discord = $discord->send($this->discordWebHook, $log, $color);
+
+            if (is_array($this->discordWebHook)) {
+                foreach($this->discordWebHook as $url) {
+                    $log->discord = $discord->send($url, $log, $color);
+                }
+            } else {
+                $log->discord = $discord->send($this->discordWebHook, $log, $color);
+            }
         }
 
         return $log;
