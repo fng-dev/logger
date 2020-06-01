@@ -67,7 +67,17 @@ class Logger
     public function sendDiscordMessage($message)
     {
         $discord = new Discord();
-        return $discord->sendMessage($this->discordWebHook, $message);
+
+        if (is_array($this->discordWebHook)) {
+            foreach($this->discordWebHook as $url) {
+                $discord->sendMessage($url, $message);
+            }
+        } else {
+            $discord->sendMessage($this->discordWebHook, $message);
+        }
+
+        return true;
+
     }
 
     public function update(Log $log)
