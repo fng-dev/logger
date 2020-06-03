@@ -39,10 +39,7 @@ class Log extends Model
      * @var array
      */
 
-    protected $hidden = [
-        'created_at',
-        'updated_at'
-    ];
+    protected $hidden = [];
 
     /**
      *
@@ -72,7 +69,24 @@ class Log extends Model
         return self::$rules;
     }
 
-    /*
-    *   Relacíon con la model 'CANCHA'
-    */
+
+    /**
+     * Filter fields
+     *
+     * @var array
+     */
+
+    protected static $fields = [
+        "id",
+        "level",
+        "domain",
+        "plataform",
+        "description",
+        "user_id"
+    ];
+
+    static public function getFields()
+    {
+        return collect(self::$fields);
+    }
 }

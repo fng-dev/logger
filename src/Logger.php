@@ -4,6 +4,7 @@ namespace Fng\Logger;
 
 use Fng\Logger\Discord;
 use Fng\Logger\Models\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Logger
@@ -16,9 +17,31 @@ class Logger
         $this->discordWebHook = $discord;
     }
 
-    public function getLogs()
+    public function getLogs(Request $request)
     {
-        return Log::all();
+        $fields = Log::getFields();
+        $logs = null;
+        foreach ($request->all() as $key => $filters) {
+            if ($logs !== null) {
+                if ($fields->contains($key)) {
+                    $logs->where($key, 'LIKE', "%{$filters}%");
+                }
+            } else {
+                if ($fields->contains($key)) {
+                    $logs = Log::where($key, 'LIKE', "%{$filters}%");
+                }
+            }
+        }
+
+        $paginate = isset($request->paginate) ? intval($request->paginate) : 10;
+
+        if ($logs) {
+            $logs = $logs->paginate($paginate);
+        } else {
+            $logs = Log::paginate($paginate);
+        }
+        $logs->appends($request->all())->links();
+        return response()->json($logs)->original;
     }
 
     public function create(Log $log)
@@ -51,14 +74,7 @@ class Logger
                     $color = 'ff0000';
                     break;
             }
-
-            if (is_array($this->discordWebHook)) {
-                foreach($this->discordWebHook as $url) {
-                    $log->discord = $discord->send($url, $log, $color);
-                }
-            } else {
-                $log->discord = $discord->send($this->discordWebHook, $log, $color);
-            }
+            $log->discord = $discord->send($this->discordWebHook, $log, $color);
         }
 
         return $log;
@@ -67,17 +83,7 @@ class Logger
     public function sendDiscordMessage($message)
     {
         $discord = new Discord();
-
-        if (is_array($this->discordWebHook)) {
-            foreach($this->discordWebHook as $url) {
-                $discord->sendMessage($url, $message);
-            }
-        } else {
-            $discord->sendMessage($this->discordWebHook, $message);
-        }
-
-        return true;
-
+        return $discord->sendMessage($this->discordWebHook, $message);
     }
 
     public function update(Log $log)
