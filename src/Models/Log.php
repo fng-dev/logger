@@ -30,6 +30,8 @@ class Log extends Model
         "domain",
         "plataform",
         "description",
+        "line",
+        "code",
         "user_id"
     ];
 
@@ -82,6 +84,8 @@ class Log extends Model
         "domain",
         "plataform",
         "description",
+        "line",
+        "code",
         "user_id"
     ];
 
