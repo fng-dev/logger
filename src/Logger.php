@@ -52,6 +52,8 @@ class Logger
             "plataform" => isset($log->plataform) ? $log->plataform : $_SERVER['HTTP_USER_AGENT'],
             "domain" => isset($log->domain)  ? $log->domain : $_SERVER['SERVER_NAME'],
             "description" => $log->description,
+            "line" => $log->line,
+            "code" => $log->code,
             "user_id" => Auth::check() ? Auth::id() : null
         ]);
 
