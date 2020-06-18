@@ -17,7 +17,7 @@ class Log extends Model
     public const ALERT = "ALERT LEVEL";
     public const EMERGENCY = "EMERGENCY LEVEL";
 
-    protected $table = 'logs';
+    protected $table = 'fng_logs';
 
     /**
      * The attributes that are mass assignable.
