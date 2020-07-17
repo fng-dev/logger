@@ -1,5 +1,5 @@
 {
-    "name": "fng-dev/logger",
+    "name": "gux/logger",
     "description": "Log events in lumen/laravel application",
     "type": "library",
     "license": "MIT",
