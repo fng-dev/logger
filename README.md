@@ -10,7 +10,7 @@
 ## Installation
 
 ```sh
-composer require fng-dev/logger
+composer require gux/logger
 ```
 
 ## Configs
